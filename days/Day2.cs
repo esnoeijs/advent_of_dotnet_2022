@@ -1,8 +1,9 @@
 
 namespace aoc.days;
 
-public class Day2 {
-    
+public class Day2
+{
+
     enum Shape
     {
         Rock = 1,

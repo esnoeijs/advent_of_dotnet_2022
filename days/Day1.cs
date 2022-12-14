@@ -1,10 +1,11 @@
 
 namespace aoc.days;
 
-public class Day1 {
+public class Day1
+{
 
     readonly record struct elf(int nr, int calories);
-        
+
     public static Task Run(FileInfo file)
     {
         using (var sr = new StreamReader(file.FullName))

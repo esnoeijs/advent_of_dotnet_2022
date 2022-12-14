@@ -8,25 +8,24 @@ class Aoc
 {
     static async Task<int> Main(string[] args)
     {
-        var fileOption = new Option<FileInfo?>(
-            name: "--file",
-            description: "The file to read and display on the console.");
+        var fileOption = new Option<FileInfo?>(name: "--file",description: "input file");
+        var rootCommand = new RootCommand("aoc");
+        var commands = new HashSet<Func<FileInfo?, Task>> {
+            (file) => Day1.Run(file!),
+            (file) => Day2.Run(file!),
+            (file) => Day3.Run(file!),
+        }.Select((run, idx) =>
+        {
+            var cmd = new Command($"day{idx + 1}") { fileOption };
+            cmd.SetHandler(run, fileOption);
+            return cmd;
+        });
 
-        var day1Command = new Command("day1") { fileOption };
-        day1Command.SetHandler((file) => Day1.Run(file!), fileOption);
-
-        var day2Command = new Command("day2") { fileOption };
-        day2Command.SetHandler((file) => Day2.Run(file!), fileOption);
-
-        var day3Command = new Command("day3") { fileOption };
-        day3Command.SetHandler((file) => Day3.Run(file!), fileOption);
-
-        var rootCommand = new RootCommand("Sample app for System.CommandLine");
-        rootCommand.AddCommand(day1Command);
-        rootCommand.AddCommand(day2Command);
-        rootCommand.AddCommand(day3Command);
+        foreach (var cmd in commands)
+        {
+            rootCommand.AddCommand(cmd);
+        }
 
         return await rootCommand.InvokeAsync(args);
-
     }
 }
