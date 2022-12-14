@@ -18,9 +18,13 @@ class Aoc
         var day2Command = new Command("day2") { fileOption };
         day2Command.SetHandler((file) => Day2.Run(file!), fileOption);
 
+        var day3Command = new Command("day3") { fileOption };
+        day3Command.SetHandler((file) => Day3.Run(file!), fileOption);
+
         var rootCommand = new RootCommand("Sample app for System.CommandLine");
         rootCommand.AddCommand(day1Command);
         rootCommand.AddCommand(day2Command);
+        rootCommand.AddCommand(day3Command);
 
         return await rootCommand.InvokeAsync(args);
 
